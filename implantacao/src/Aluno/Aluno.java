@@ -59,4 +59,10 @@ public class Aluno extends Usuario {
   public void setDisciplinasOpt(ArrayList<Integer> disciplinasOpt) {
     this.disciplinasOpt = disciplinasOpt;
   }
+
+  public void visualizarDisciplinas(int idAluno) {}
+
+  public void cancelarDisciplinas(int idDisciplina, int idAluno) {}
+
+  public void matricular(int idDisciplina, int idAluno) {}
 }
