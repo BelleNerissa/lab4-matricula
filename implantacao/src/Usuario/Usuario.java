@@ -1,4 +1,4 @@
-package implantacao.Usuario;
+package Usuario;
 
 import java.io.Serializable;
 

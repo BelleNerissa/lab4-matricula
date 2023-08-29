@@ -1,6 +1,6 @@
-package implantacao.Secretaria;
+package Secretaria;
 
-import implantacao.Usuario.Usuario;
+import Usuario.Usuario;
 
 public class Secretaria extends Usuario {
 

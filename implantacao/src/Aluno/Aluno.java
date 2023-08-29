@@ -1,6 +1,6 @@
-package implantacao.Aluno;
+package Aluno;
 
-import implantacao.Usuario.*;
+import Usuario.*;
 import java.util.ArrayList;
 
 public class Aluno extends Usuario {

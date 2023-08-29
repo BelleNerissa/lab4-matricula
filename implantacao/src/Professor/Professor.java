@@ -1,8 +1,8 @@
-package implantacao.Professor;
+package Professor;
 
-import implantacao.Aluno.*;
-import implantacao.Disciplina.*;
-import implantacao.Usuario.*;
+import Aluno.*;
+import Disciplina.*;
+import Usuario.*;
 import java.util.ArrayList;
 
 public class Professor extends Usuario {

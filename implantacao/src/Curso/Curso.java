@@ -1,4 +1,4 @@
-package implantacao.Curso;
+package Curso;
 
 import java.util.ArrayList;
 
