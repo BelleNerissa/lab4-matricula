@@ -7,8 +7,7 @@ public class Aluno extends Usuario {
 
   private int QntCreditos = 1000;
   private int creditos = 0;
-  private ArrayList<Integer> disciplinasOpt;
-  private ArrayList<Integer> disciplinasObg;
+  private ArrayList<Integer> disciplinas;
 
   public Aluno(
     int id,
@@ -16,16 +15,14 @@ public class Aluno extends Usuario {
     String sobrenome,
     String senha,
     int creditos,
-    ArrayList<Integer> disciplinasOpt,
-    ArrayList<Integer> disciplinasObg
+    ArrayList<Integer> disciplinas
   ) {
     this.setId(id);
     this.setNome(nome);
     this.setSobrenome(sobrenome);
     this.setSenha(senha);
     this.creditos = creditos;
-    this.disciplinasOpt = disciplinasOpt;
-    this.disciplinasObg = disciplinasObg;
+    this.disciplinas = disciplinas;
   }
 
   public void setQntCreditos(int creditos) {
@@ -44,20 +41,12 @@ public class Aluno extends Usuario {
     return this.creditos;
   }
 
-  public ArrayList<Integer> getDisciplinasObg() {
-    return disciplinasObg;
+  public ArrayList<Integer> getDisciplinas() {
+    return disciplinas;
   }
 
-  public void setDisciplinasObg(ArrayList<Integer> disciplinasObg) {
-    this.disciplinasObg = disciplinasObg;
-  }
-
-  public ArrayList<Integer> getDisciplinasOpt() {
-    return disciplinasOpt;
-  }
-
-  public void setDisciplinasOpt(ArrayList<Integer> disciplinasOpt) {
-    this.disciplinasOpt = disciplinasOpt;
+  public void setDisciplinas(ArrayList<Integer> disciplinas) {
+    this.disciplinas = disciplinas;
   }
 
   public void visualizarDisciplinas(int idAluno) {}

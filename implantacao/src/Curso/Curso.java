@@ -1,13 +1,14 @@
 package Curso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Curso {
+public class Curso implements Serializable {
 
   private int id;
   private String nome;
-  private ArrayList<Integer> disciplinas;
   private int periodos;
+  private ArrayList<Integer> disciplinas;
 
   public Curso(
     int id,
