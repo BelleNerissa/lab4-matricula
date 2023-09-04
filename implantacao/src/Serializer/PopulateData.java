@@ -111,15 +111,15 @@ public class PopulateData {
     alunos.add(aluno3);
 
     PersistentData<ArrayList<Curso>> cursoData = new PersistentData<ArrayList<Curso>>(cursos);
-    DataSerializer.serialize(cursoData, "C:\\Users\\belle\\Documents\\PUC\\Lab4\\lab4-matricula\\implantacao\\data_cursos.ser");
+    DataSerializer.serialize(cursoData, "data_cursos.ser");
 
     PersistentData<ArrayList<Aluno>> alunoData = new PersistentData<ArrayList<Aluno>>(alunos);
-    DataSerializer.serialize(alunoData, "C:\\Users\\belle\\Documents\\PUC\\Lab4\\lab4-matricula\\implantacao\\data_alunos.ser");
+    DataSerializer.serialize(alunoData, "data_alunos.ser");
 
     PersistentData<ArrayList<Professor>> professorData = new PersistentData<ArrayList<Professor>>(professores);
-    DataSerializer.serialize(professorData, "C:\\Users\\belle\\Documents\\PUC\\Lab4\\lab4-matricula\\implantacao\\data_professores.ser");
+    DataSerializer.serialize(professorData, "data_professores.ser");
 
     PersistentData<ArrayList<Disciplina>> disciplinaData = new PersistentData<ArrayList<Disciplina>>(disciplinas);
-    DataSerializer.serialize(disciplinaData, "C:\\Users\\belle\\Documents\\PUC\\Lab4\\lab4-matricula\\implantacao\\data_disciplinas.ser");
+    DataSerializer.serialize(disciplinaData, "data_disciplinas.ser");
   }
 }

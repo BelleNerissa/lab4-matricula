@@ -11,7 +11,7 @@ public class DataSerializer {
     public static <T extends Serializable> void serialize(PersistentData<T> persistentData, String fileName)
             throws IOException {
 
-        Path filePath = Paths.get(fileName);
+        Path filePath = Paths.get("C:\\Users\\belle\\Documents\\PUC\\Lab4\\lab4-matricula\\implantacao\\" + fileName);
         try (FileOutputStream fileOut = new FileOutputStream(filePath.toFile());
                 ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
             objectOut.writeObject(persistentData);
