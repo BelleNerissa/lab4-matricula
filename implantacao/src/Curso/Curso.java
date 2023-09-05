@@ -5,17 +5,15 @@ import java.util.ArrayList;
 public class Curso {
 
   private int id;
+  private static int idGeral = 1;
   private String nome;
   private ArrayList<Integer> disciplinas;
   private int periodos;
 
-  public Curso(
-    int id,
-    String nome,
-    ArrayList<Integer> disciplinas,
-    int periodos
-  ) {
-    this.id = id;
+  public Curso(String nome, ArrayList<Integer> disciplinas, int periodos) {
+
+    id = idGeral;
+    idGeral++;
     this.nome = nome;
     this.disciplinas = disciplinas;
     this.periodos = periodos;

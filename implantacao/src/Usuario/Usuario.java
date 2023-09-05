@@ -3,13 +3,16 @@ package Usuario;
 import java.io.Serializable;
 
 public abstract class Usuario implements Serializable {
+
     private int id;
+    private static int idGeral = 1;
     private String nome;
     private String sobrenome;
     private String senha;
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId() {
+        this.id = idGeral;
+        idGeral++;
     }
 
     public int getId() {

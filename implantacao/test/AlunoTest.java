@@ -1,34 +1,20 @@
-package Aluno;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import Aluno.*;
 
-import Usuario.*;
-import java.util.ArrayList;
 
-public class AlunoTest extends Aluno {
+public class AlunoTest {
 
-  public AlunoTest(
-    int id,
-    String nome,
-    String sobrenome,
-    String senha,
-    int creditos,
-    ArrayList<Integer> disciplinasOpt,
-    ArrayList<Integer> disciplinasObg
-  ) {
-    super(id, nome, sobrenome, senha, creditos, disciplinasOpt, disciplinasObg);
-  }
+    Aluno aluno1;
+    Aluno aluno2;
 
-  @Override
-  public void visualizarDisciplinas(int idAluno) {
-    // Implementação vazia, pois é um stub
-  }
+    @BeforeEach
+    public void init(){
 
-  @Override
-  public void cancelarDisciplinas(int idDisciplina, int idAluno) {
-    // Implementação vazia, pois é um stub
-  }
 
-  @Override
-  public void matricular(int idDisciplina, int idAluno) {
-    // Implementação vazia, pois é um stub
-  }
+
+    }
+
+
+
 }

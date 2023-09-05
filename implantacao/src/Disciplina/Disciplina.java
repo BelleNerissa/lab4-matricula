@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Disciplina implements Serializable {
 
   private int id;
+  private static int idGeral = 1;
   private String nome;
   private int creditos;
   private int periodo;
@@ -14,17 +15,10 @@ public class Disciplina implements Serializable {
   private int professor;
   private int cursoID;
 
-  public Disciplina(
-    int id,
-    String nome,
-    int creditos,
-    int periodo,
-    int tipo,
-    ArrayList<Integer> alunos,
-    int professor,
-    int cursoID
-  ) {
-    this.id = id;
+  public Disciplina(String nome, int creditos, int periodo, int tipo, ArrayList<Integer> alunos, int professor, int cursoID) {
+
+    id = idGeral;
+    idGeral++;
     this.nome = nome;
     this.creditos = creditos;
     this.periodo = periodo;
@@ -32,14 +26,11 @@ public class Disciplina implements Serializable {
     this.alunos = alunos;
     this.professor = professor;
     this.cursoID = cursoID;
+
   }
 
   public int getId() {
     return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
   }
 
   public String getNome() {

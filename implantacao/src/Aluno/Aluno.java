@@ -10,22 +10,16 @@ public class Aluno extends Usuario {
   private ArrayList<Integer> disciplinasOpt;
   private ArrayList<Integer> disciplinasObg;
 
-  public Aluno(
-    int id,
-    String nome,
-    String sobrenome,
-    String senha,
-    int creditos,
-    ArrayList<Integer> disciplinasOpt,
-    ArrayList<Integer> disciplinasObg
-  ) {
-    this.setId(id);
+  public Aluno(String nome, String sobrenome, String senha, int creditos, ArrayList<Integer> disciplinasOpt, ArrayList<Integer> disciplinasObg) {
+
+    this.setId();
     this.setNome(nome);
     this.setSobrenome(sobrenome);
     this.setSenha(senha);
     this.creditos = creditos;
     this.disciplinasOpt = disciplinasOpt;
     this.disciplinasObg = disciplinasObg;
+
   }
 
   public void setQntCreditos(int creditos) {
