@@ -1,18 +1,17 @@
 package Aluno;
 
 import Disciplina.Disciplina;
+import Disciplina.Disciplina;
+import Professor.Professor;
 import Professor.Professor;
 import Serializer.DataSerializer;
+import Serializer.DataSerializer;
+import Serializer.PersistentData;
 import Serializer.PersistentData;
 import Usuario.*;
 import java.io.IOException;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import Disciplina.Disciplina;
-import Professor.Professor;
-import Serializer.DataSerializer;
-import Serializer.PersistentData;
 
 public class Aluno extends Usuario {
 
@@ -21,13 +20,13 @@ public class Aluno extends Usuario {
   private ArrayList<Integer> disciplinas;
 
   public Aluno(
-      int id,
-      String nome,
-      String sobrenome,
-      String senha,
-      int creditos,
-      ArrayList<Integer> disciplinas) {
-
+    int id,
+    String nome,
+    String sobrenome,
+    String senha,
+    int creditos,
+    ArrayList<Integer> disciplinas
+  ) {
     this.setId(id);
     this.setNome(nome);
     this.setSobrenome(sobrenome);
@@ -60,78 +59,114 @@ public class Aluno extends Usuario {
     this.disciplinas = disciplinas;
   }
 
-  public void visualizarDisciplinas(ArrayList<Disciplina> allDisciplinas, ArrayList<Professor> allProfessores) {
+  public void visualizarDisciplinas(
+    ArrayList<Disciplina> allDisciplinas,
+    ArrayList<Professor> allProfessores
+  ) {
     System.out.println("Disciplinas:");
     for (Disciplina disciplina : allDisciplinas) {
       if (this.disciplinas.contains(disciplina.getId())) {
-        String cancelada = disciplina.getAlunos().size() < 3 ? " (Cancelada)" : "";
-        System.out.println("  - " + disciplina.getNome() + " (" + disciplina.getCreditos()
-            + " Creditos) " + cancelada);
+        String cancelada = disciplina.getAlunos().size() < 3
+          ? " (Cancelada)"
+          : "";
+        System.out.println(
+          "  - " +
+          disciplina.getNome() +
+          " (" +
+          disciplina.getCreditos() +
+          " Creditos) " +
+          cancelada
+        );
         for (Professor professor : allProfessores) {
           if (disciplina.getProfessor() == professor.getId()) {
-            System.out.println("    - Professor: " + professor.getNome() + " " + professor.getSobrenome());
+            System.out.println(
+              "    - Professor: " +
+              professor.getNome() +
+              " " +
+              professor.getSobrenome()
+            );
           }
         }
       }
     }
   }
 
-  public void cancelarDisciplinas(ArrayList<Disciplina> allDisciplinas, ArrayList<Aluno> allAlunos, int idDisciplina)
-      throws IOException {
+  public void cancelarDisciplinas(
+    ArrayList<Disciplina> allDisciplinas,
+    ArrayList<Aluno> allAlunos,
+    int idDisciplina
+  ) throws IOException {
     boolean encontrouDisciplina = false;
     int creditosRemovidos = 0;
+    
+    System.out.println("Disciplinas atuais:");
+
     for (int i = 0; i < disciplinas.size(); i++) {
-      if (disciplinas.get(i) == idDisciplina) {
-        encontrouDisciplina = true;
-        int disciplinaCreditos = 0;
-
-        for (Disciplina disciplina : allDisciplinas) {
-          if (disciplina.getId() == idDisciplina) {
-            disciplinaCreditos = disciplina.getCreditos();
-            disciplina.getAlunos().remove(Integer.valueOf(this.getId()));
-            break;
-          }
+      int disciplinaId = disciplinas.get(i);
+      for (Disciplina disciplina : allDisciplinas) {
+        if (disciplina.getId() == disciplinaId) {
+          String cancelada = disciplina.getAlunos().size() < 3 ? " (Cancelada)" : "";
+          System.out.println("  - " + disciplina.getNome() + " (" + disciplina.getCreditos()
+              + " Creditos) " + cancelada);
+          encontrouDisciplina = true;
         }
-
-        setCreditos(this.creditos - disciplinaCreditos);
-        creditosRemovidos = disciplinaCreditos;
-
-        disciplinas.remove(i);
-
-        for (Disciplina disciplina : allDisciplinas) {
-          if (disciplina.getId() == idDisciplina) {
-            disciplina.setAlunos(disciplina.getAlunos());
-            break;
-          }
-        }
-
-        for (Aluno aluno : allAlunos) {
-          if (aluno.getId() == this.getId()) {
-            aluno.setDisciplinas(disciplinas);
-            aluno.setCreditos(aluno.getCreditos() - creditosRemovidos);
-            break;
-          }
-        }
-
-        PersistentData<ArrayList<Aluno>> alunoData = new PersistentData<ArrayList<Aluno>>(allAlunos);
-        DataSerializer.serialize(alunoData, "data_alunos.ser");
-
-        PersistentData<ArrayList<Disciplina>> disciplinaData = new PersistentData<ArrayList<Disciplina>>(
-            allDisciplinas);
-        DataSerializer.serialize(disciplinaData, "data_disciplinas.ser");
-
-        System.out.println("Matrícula na disciplina cancelada com sucesso!");
-        break;
       }
     }
 
-    if (!encontrouDisciplina) {
-      System.out.println("Você não está matriculado nesta disciplina!");
+    if (encontrouDisciplina) {
+      for (int i = 0; i < disciplinas.size(); i++) {
+        if (disciplinas.get(i) == idDisciplina) {
+          int disciplinaCreditos = 0;
+
+          for (Disciplina disciplina : allDisciplinas) {
+            if (disciplina.getId() == idDisciplina) {
+              disciplinaCreditos = disciplina.getCreditos();
+              disciplina.getAlunos().remove(Integer.valueOf(this.getId()));
+              break;
+            }
+          }
+
+          setCreditos(this.creditos - disciplinaCreditos);
+          creditosRemovidos = disciplinaCreditos;
+
+          disciplinas.remove(i);
+
+          for (Disciplina disciplina : allDisciplinas) {
+            if (disciplina.getId() == idDisciplina) {
+              disciplina.setAlunos(disciplina.getAlunos());
+              break;
+            }
+          }
+
+          for (Aluno aluno : allAlunos) {
+            if (aluno.getId() == this.getId()) {
+              aluno.setDisciplinas(disciplinas);
+              aluno.setCreditos(aluno.getCreditos() - creditosRemovidos);
+              break;
+            }
+          }
+
+          PersistentData<ArrayList<Aluno>> alunoData = new PersistentData<ArrayList<Aluno>>(allAlunos);
+          DataSerializer.serialize(alunoData, "data_alunos.ser");
+
+          PersistentData<ArrayList<Disciplina>> disciplinaData = new PersistentData<ArrayList<Disciplina>>(
+              allDisciplinas);
+          DataSerializer.serialize(disciplinaData, "data_disciplinas.ser");
+
+          System.out.println("Matrícula na disciplina cancelada com sucesso!");
+          break;
+        }
+      }
+    } else {
+      System.out.println("Você não está matriculado em nenhuma disciplina!");
     }
   }
 
-  public void matricular(int idDisciplina, ArrayList<Disciplina> allDisciplinas,
-      ArrayList<Aluno> allAlunos) throws IOException {
+  public void matricular(
+    int idDisciplina,
+    ArrayList<Disciplina> allDisciplinas,
+    ArrayList<Aluno> allAlunos
+  ) throws IOException {
     disciplinas.add(idDisciplina);
 
     for (Disciplina disciplina : allDisciplinas) {
@@ -147,14 +182,15 @@ public class Aluno extends Usuario {
         }
 
         if (this.creditos + disciplina.getCreditos() > this.creditos) {
-          System.out.println("Voce nao tem creditos suficientes para se matricular nesta disciplina!");
+          System.out.println(
+            "Voce nao tem creditos suficientes para se matricular nesta disciplina!"
+          );
           return;
         }
 
         disciplina.getAlunos().add(this.getId());
         setCreditos(this.creditos += disciplina.getCreditos());
       }
-
     }
     for (Aluno aluno : allAlunos) {
       if (aluno.getId() == this.getId()) {
@@ -169,16 +205,22 @@ public class Aluno extends Usuario {
       }
     }
 
-    PersistentData<ArrayList<Aluno>> alunoData = new PersistentData<ArrayList<Aluno>>(allAlunos);
-    DataSerializer.serialize(alunoData,
-        "C:\\Users\\belle\\Documents\\PUC\\Lab4\\lab4-matricula\\implantacao\\data_alunos.ser");
+    PersistentData<ArrayList<Aluno>> alunoData = new PersistentData<ArrayList<Aluno>>(
+      allAlunos
+    );
+    DataSerializer.serialize(
+      alunoData,
+      "C:\\Users\\belle\\Documents\\PUC\\Lab4\\lab4-matricula\\implantacao\\data_alunos.ser"
+    );
 
     PersistentData<ArrayList<Disciplina>> disciplinaData = new PersistentData<ArrayList<Disciplina>>(
-        allDisciplinas);
-    DataSerializer.serialize(disciplinaData,
-        "C:\\Users\\belle\\Documents\\PUC\\Lab4\\lab4-matricula\\implantacao\\data_disciplinas.ser");
+      allDisciplinas
+    );
+    DataSerializer.serialize(
+      disciplinaData,
+      "C:\\Users\\belle\\Documents\\PUC\\Lab4\\lab4-matricula\\implantacao\\data_disciplinas.ser"
+    );
 
     System.out.println("Matricula realizada com sucesso!");
   }
-
 }

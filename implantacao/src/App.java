@@ -14,160 +14,184 @@ import java.util.Scanner;
 
 public class App {
 
-    public static void main(String[] args) throws Exception {
-        try {
-            // PopulateData.populate();
-            ArrayList<Curso> cursos = DataDeserializer.deserialize(
-                    "data_cursos.ser");
-            ArrayList<Disciplina> disciplinas = DataDeserializer.deserialize(
-                    "data_disciplinas.ser");
-            ArrayList<Aluno> alunos = DataDeserializer.deserialize("data_alunos.ser");
-            ArrayList<Aluno> alunosList = alunos;
-            ArrayList<Professor> professores = DataDeserializer.deserialize(
-                    "data_professores.ser");
-            ArrayList<Secretaria> secretarias = DataDeserializer.deserialize(
-                    "data_secretaria.ser");
-            List<Usuario> usuarios = new ArrayList<>();
-            usuarios.addAll(alunos);
-            usuarios.addAll(professores);
-            usuarios.addAll(secretarias);
+  public static void main(String[] args) throws Exception {
+    try {
+      // PopulateData.populate();
+      ArrayList<Curso> cursos = DataDeserializer.deserialize("data_cursos.ser");
+      ArrayList<Disciplina> disciplinas = DataDeserializer.deserialize(
+        "data_disciplinas.ser"
+      );
+      ArrayList<Aluno> alunos = DataDeserializer.deserialize("data_alunos.ser");
+      ArrayList<Aluno> alunosList = alunos;
+      ArrayList<Professor> professores = DataDeserializer.deserialize(
+        "data_professores.ser"
+      );
+      ArrayList<Secretaria> secretarias = DataDeserializer.deserialize(
+        "data_secretaria.ser"
+      );
+      List<Usuario> usuarios = new ArrayList<>();
+      usuarios.addAll(alunos);
+      usuarios.addAll(professores);
+      usuarios.addAll(secretarias);
 
-            Scanner scanner = new Scanner(System.in);
-            Usuario usuarioLogado = fazerLogin(usuarios, scanner);
+      Scanner scanner = new Scanner(System.in);
+      Usuario usuarioLogado = fazerLogin(usuarios, scanner);
 
-            if (usuarioLogado == null) {
-                System.out.println("Erro ao fazer login!");
-            } else {
-                System.out.println("Bem-vindo, " + usuarioLogado.getNome() + "!\n");
+      if (usuarioLogado == null) {
+        System.out.println("Erro ao fazer login!");
+      } else {
+        System.out.println("Bem-vindo, " + usuarioLogado.getNome() + "!\n");
 
-                if (usuarioLogado instanceof Aluno) {
-                    Aluno aluno = (Aluno) usuarioLogado;
-                    exibirDadosAluno(aluno, disciplinas, professores, scanner, alunos);
-                } else if (usuarioLogado instanceof Professor) {
-                    Professor professor = (Professor) usuarioLogado;
-                    professor.visualizarDisciplinas(disciplinas, alunos);
-                } else if (usuarioLogado instanceof Secretaria) {
-                    int op;
-                    Secretaria secretaria = (Secretaria) usuarioLogado;
-                    do {
-                        System.out.println("1 - Gerenciar Aluno");
-                        System.out.println("2 - Gerenciar Disciplina");
-                        System.out.println("3 - Gerenciar Professor");
-                        System.out.println("4 - Gerenciar Curso");
-                        System.out.print("Opção: ");
-                        op = scanner.nextInt();
-                        scanner.nextLine();
-                        if (op == 1) {
-                            secretaria.gerenciarAluno(alunos);
-                        }
-                        if (op == 2) {
-                            secretaria.gerenciarDisciplina(disciplinas);
-                        }
-                        if (op == 3) {
-                            secretaria.gerenciarProfessor(professores);
-                        }
-                        if (op == 4) {
-                            secretaria.gerenciarCurso(cursos);
-                        }
-                    } while (op != 0);
-                }
-            }
-
-            scanner.close();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static Usuario fazerLogin(List<Usuario> usuarios, Scanner scanner) {
-        System.out.print("Id: ");
-        String id = scanner.nextLine();
-        System.out.print("Senha: ");
-        String senha = scanner.nextLine();
-
-        for (Usuario usuario : usuarios) {
-            if (String.valueOf(usuario.getId()).equals(id) &&
-                    usuario.getSenha().equals(senha)) {
-                return usuario;
-            }
-        }
-        return null;
-    }
-
-    private static void exibirDadosAluno(
-            Aluno aluno,
-            ArrayList<Disciplina> disciplinas,
-            ArrayList<Professor> professores,
-            Scanner scanner,
-            ArrayList<Aluno> alunos) throws IOException, ClassNotFoundException {
-        System.out.println(
-                "Créditos: " + aluno.getCreditos() + " / " + aluno.getQntCreditos() + "\n");
-        aluno.visualizarDisciplinas(disciplinas, professores);
-
-        int op;
-
-        do {
-            System.out.println("1 - Matricular em disciplina");
-            System.out.println("2 - Cancelar matricula em disciplina");
-            System.out.println("0 - Sair");
+        if (usuarioLogado instanceof Aluno) {
+          Aluno aluno = (Aluno) usuarioLogado;
+          exibirDadosAluno(aluno, disciplinas, professores, scanner, alunos);
+        } else if (usuarioLogado instanceof Professor) {
+          Professor professor = (Professor) usuarioLogado;
+          professor.visualizarDisciplinas(disciplinas, alunos);
+        } else if (usuarioLogado instanceof Secretaria) {
+          int op;
+          Secretaria secretaria = (Secretaria) usuarioLogado;
+          do {
+            System.out.println("1 - Gerenciar Aluno");
+            System.out.println("2 - Gerenciar Disciplina");
+            System.out.println("3 - Gerenciar Professor");
+            System.out.println("4 - Gerenciar Curso");
             System.out.print("Opção: ");
             op = scanner.nextInt();
             scanner.nextLine();
-
             if (op == 1) {
-                matricularEmDisciplina(aluno, disciplinas, alunos);
-                disciplinas = DataDeserializer.deserialize("data_disciplinas.ser");
-                alunos = DataDeserializer.deserialize("data_alunos.ser");
+              secretaria.gerenciarAluno(alunos);
             }
             if (op == 2) {
-                cancelarMatricularEmDisciplina(aluno, disciplinas, alunos);
-                disciplinas = DataDeserializer.deserialize("data_disciplinas.ser");
-                alunos = DataDeserializer.deserialize("data_alunos.ser");
+              secretaria.gerenciarDisciplina(disciplinas);
             }
-        } while (op != 0);
-    }
-
-    private static void matricularEmDisciplina(
-            Aluno aluno,
-            ArrayList<Disciplina> disciplinas,
-            ArrayList<Aluno> alunos) throws IOException {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-        System.out.println(
-                "Créditos: " + aluno.getCreditos() + " / " + aluno.getQntCreditos() + "\n");
-        System.out.println("Disciplinas disponíveis:");
-
-        for (Disciplina disciplina : disciplinas) {
-            System.out.println(
-                    "  - " +
-                            disciplina.getId() +
-                            ": " +
-                            disciplina.getNome() +
-                            " (" +
-                            disciplina.getCreditos() +
-                            " Créditos)");
+            if (op == 3) {
+              secretaria.gerenciarProfessor(professores);
+            }
+            if (op == 4) {
+              secretaria.gerenciarCurso(cursos);
+            }
+          } while (op != 0);
         }
+      }
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Id da disciplina: ");
-        int disciplinaId = scanner.nextInt();
-        scanner.nextLine();
+      scanner.close();
+    } catch (IOException | ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+  }
 
-        aluno.matricular(disciplinaId, disciplinas, alunos);
+  private static Usuario fazerLogin(List<Usuario> usuarios, Scanner scanner) {
+    System.out.print("Id: ");
+    String id = scanner.nextLine();
+    System.out.print("Senha: ");
+    String senha = scanner.nextLine();
+
+    for (Usuario usuario : usuarios) {
+      if (
+        String.valueOf(usuario.getId()).equals(id) &&
+        usuario.getSenha().equals(senha)
+      ) {
+        return usuario;
+      }
+    }
+    return null;
+  }
+
+  private static void exibirDadosAluno(
+    Aluno aluno,
+    ArrayList<Disciplina> disciplinas,
+    ArrayList<Professor> professores,
+    Scanner scanner,
+    ArrayList<Aluno> alunos
+  ) throws IOException, ClassNotFoundException {
+    System.out.println(
+      "Créditos: " + aluno.getCreditos() + " / " + aluno.getQntCreditos() + "\n"
+    );
+    aluno.visualizarDisciplinas(disciplinas, professores);
+
+    int op;
+
+    do {
+      System.out.println("1 - Matricular em disciplina");
+      System.out.println("2 - Cancelar matricula em disciplina");
+      System.out.println("0 - Sair");
+      System.out.print("Opção: ");
+      op = scanner.nextInt();
+      scanner.nextLine();
+
+      if (op == 1) {
+        matricularEmDisciplina(aluno, disciplinas, alunos);
+        disciplinas = DataDeserializer.deserialize("data_disciplinas.ser");
+        alunos = DataDeserializer.deserialize("data_alunos.ser");
+      }
+      if (op == 2) {
+        cancelarMatricularEmDisciplina(aluno, disciplinas, alunos);
+        disciplinas = DataDeserializer.deserialize("data_disciplinas.ser");
+        alunos = DataDeserializer.deserialize("data_alunos.ser");
+      }
+    } while (op != 0);
+  }
+
+  private static void matricularEmDisciplina(
+    Aluno aluno,
+    ArrayList<Disciplina> disciplinas,
+    ArrayList<Aluno> alunos
+  ) throws IOException {
+    System.out.print("\033[H\033[2J");
+    System.out.flush();
+    System.out.println(
+      "Créditos: " + aluno.getCreditos() + " / " + aluno.getQntCreditos() + "\n"
+    );
+    System.out.println("Disciplinas disponíveis:");
+
+    for (Disciplina disciplina : disciplinas) {
+      System.out.println(
+        "  - " +
+        disciplina.getId() +
+        ": " +
+        disciplina.getNome() +
+        " (" +
+        disciplina.getCreditos() +
+        " Créditos)"
+      );
     }
 
-    private static void cancelarMatricularEmDisciplina(
-            Aluno aluno,
-            ArrayList<Disciplina> disciplinas,
-            ArrayList<Aluno> alunos) throws IOException {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+    Scanner scanner = new Scanner(System.in);
+    System.out.print("Id da disciplina: ");
+    int disciplinaId = scanner.nextInt();
+    scanner.nextLine();
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Id da disciplina: ");
-        int disciplinaId = scanner.nextInt();
-        scanner.nextLine();
+    aluno.matricular(disciplinaId, disciplinas, alunos);
+  }
 
-        aluno.cancelarDisciplinas(disciplinas, alunos, disciplinaId);
+  private static void cancelarMatricularEmDisciplina(
+    Aluno aluno,
+    ArrayList<Disciplina> disciplinas,
+    ArrayList<Aluno> alunos
+  ) throws IOException {
+    System.out.print("\033[H\033[2J");
+    System.out.flush();
+
+    System.out.println("Disciplinas: ");
+    
+    for (Disciplina disciplina : disciplinas) {
+      System.out.println(
+        "  - " +
+        disciplina.getId() +
+        ": " +
+        disciplina.getNome() +
+        " (" +
+        disciplina.getCreditos() +
+        " Créditos)"
+      );
     }
+
+    Scanner scanner = new Scanner(System.in);
+    System.out.print("Id da disciplina: ");
+    int disciplinaId = scanner.nextInt();
+    scanner.nextLine();
+
+    aluno.cancelarDisciplinas(disciplinas, alunos, disciplinaId);
+  }
 }
