@@ -71,9 +71,9 @@ public class App {
             }
 
             scanner.close();
-        // } catch (IOException | ClassNotFoundException e) {
-        //     e.printStackTrace();
-        // }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private static Usuario fazerLogin(List<Usuario> usuarios, Scanner scanner) {
