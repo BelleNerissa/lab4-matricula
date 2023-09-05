@@ -1,4 +1,5 @@
 import Aluno.Aluno;
+import Curso.Curso;
 import Disciplina.Disciplina;
 import Professor.Professor;
 import Secretaria.Secretaria;
@@ -16,18 +17,20 @@ public class App {
     public static void main(String[] args) throws Exception {
         try {
             // PopulateData.populate();
+            ArrayList<Curso> cursos = DataDeserializer.deserialize(
+                    "data_cursos.ser");
             ArrayList<Disciplina> disciplinas = DataDeserializer.deserialize(
                     "data_disciplinas.ser");
             ArrayList<Aluno> alunos = DataDeserializer.deserialize("data_alunos.ser");
             ArrayList<Aluno> alunosList = alunos;
             ArrayList<Professor> professores = DataDeserializer.deserialize(
                     "data_professores.ser");
-            ArrayList<Secretaria> secretaria = DataDeserializer.deserialize(
+            ArrayList<Secretaria> secretarias = DataDeserializer.deserialize(
                     "data_secretaria.ser");
             List<Usuario> usuarios = new ArrayList<>();
             usuarios.addAll(alunos);
             usuarios.addAll(professores);
-            usuarios.addAll(secretaria);
+            usuarios.addAll(secretarias);
 
             Scanner scanner = new Scanner(System.in);
             Usuario usuarioLogado = fazerLogin(usuarios, scanner);
@@ -64,7 +67,7 @@ public class App {
                             secretaria.gerenciarProfessor(professores);
                         }
                         if (op == 4) {
-                            // secretaria.gerenciarCurso();
+                            secretaria.gerenciarCurso(cursos);
                         }
                     } while (op != 0);
                 }
