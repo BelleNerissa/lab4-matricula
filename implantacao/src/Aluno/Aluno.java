@@ -1,6 +1,11 @@
 package Aluno;
 
+import Disciplina.Disciplina;
+import Professor.Professor;
+import Serializer.DataSerializer;
+import Serializer.PersistentData;
 import Usuario.*;
+import java.io.IOException;
 import java.io.IOException;
 import java.util.ArrayList;
 
