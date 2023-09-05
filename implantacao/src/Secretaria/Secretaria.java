@@ -1,5 +1,7 @@
 package Secretaria;
 
+import java.util.ArrayList;
+
 import Aluno.Aluno;
 import Curso.Curso;
 import Disciplina.Disciplina;
@@ -14,36 +16,27 @@ public class Secretaria extends Usuario {
     this.setSobrenome(sobrenome);
     this.setSenha(senha);
   }
+  
 
-  private void gerenciarAluno(Aluno aluno, int op) {
-    if (op == 1) {
-      System.out.println("Aluno " + aluno.getNome() + " matriculado com sucesso!");
-    } else if (op == 2) {
-      System.out.println("Aluno " + aluno.getNome() + " removido com sucesso!");
+  public void gerenciarAluno(ArrayList<Aluno> alunos) {
+    for (Aluno aluno : alunos) {
+      System.out.println("    - Aluno: " + aluno.getNome() + " " + aluno.getSobrenome());
     }
   }
 
-  private void gerenciarProfessor(Professor professor, int op) {
-    if (op == 1) {
-      System.out.println("Professor " + professor.getNome() + " cadastrado com sucesso!");
-    } else if (op == 2) {
-      System.out.println("Professor " + professor.getNome() + " removido com sucesso!");
+  public void gerenciarProfessor(ArrayList<Professor> professores) {
+    for (Professor professor : professores) {
+      System.out.println("    - Professor: " + professor.getNome() + " " + professor.getSobrenome());
     }
   }
 
-  private void gerenciarDisciplina(Disciplina disciplina, int op) {
-    if (op == 1) {
-      System.out.println("Disciplina " + disciplina.getNome() + " cadastrada com sucesso!");
-    } else if (op == 2) {
-      System.out.println("Disciplina " + disciplina.getNome() + " removida com sucesso!");
+  public void gerenciarDisciplina(ArrayList<Disciplina> disciplinas) {
+    for (Disciplina disciplina : disciplinas) {
+      System.out.println("    - Disciplina: " + disciplina.getNome() + " ");
     }
   }
 
-  private void gerenciarCurso(Curso cursoID, int op) {
-    if (op == 1) {
-      System.out.println("Curso " + cursoID.getNome() + " cadastrado com sucesso!");
-    } else if (op == 2) {
-      System.out.println("Curso " + cursoID.getNome() + " removido com sucesso!");
-    }
+  public void gerenciarCurso(ArrayList<Curso> cursos) {
+
   }
 }

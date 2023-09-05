@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 @SuppressWarnings("unchecked")
 public class DataDeserializer {
     public static <T extends Serializable> T deserialize(String fileName) throws IOException, ClassNotFoundException {
-        Path filePath = Paths.get("C:\\Users\\belle\\Documents\\PUC\\Lab4\\lab4-matricula\\implantacao\\" + fileName);
+        Path filePath = Paths.get(fileName);
         try (FileInputStream fileIn = new FileInputStream(filePath.toFile());
                 ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
             PersistentData<T> persistentData = (PersistentData<T>) objectIn.readObject();

@@ -7,17 +7,22 @@ import Aluno.Aluno;
 import Curso.Curso;
 import Disciplina.Disciplina;
 import Professor.Professor;
+import Secretaria.Secretaria;
 
 public class PopulateData {
   public static void populate() throws IOException {
     ArrayList<Curso> cursos = new ArrayList<>();
     ArrayList<Aluno> alunos = new ArrayList<>();
     ArrayList<Professor> professores = new ArrayList<>();
+    ArrayList<Secretaria> secretaria = new ArrayList<>();
     ArrayList<Disciplina> disciplinas = new ArrayList<>();
 
     Curso curso1 = new Curso(1, "Engenharia de Software", new ArrayList<Integer>(), 8);
 
     cursos.add(curso1);
+
+    Secretaria secretaria_admin = new Secretaria(0, "Admin", "Admin", "321");
+    secretaria.add(secretaria_admin);
 
     Professor professor1 = new Professor(1, "Maria", "Augusta", "321", new ArrayList<Integer>() {
       {
@@ -118,6 +123,9 @@ public class PopulateData {
 
     PersistentData<ArrayList<Professor>> professorData = new PersistentData<ArrayList<Professor>>(professores);
     DataSerializer.serialize(professorData, "data_professores.ser");
+
+    PersistentData<ArrayList<Secretaria>> secretariaData = new PersistentData<ArrayList<Secretaria>>(secretaria);
+    DataSerializer.serialize(secretariaData, "data_secretaria.ser");
 
     PersistentData<ArrayList<Disciplina>> disciplinaData = new PersistentData<ArrayList<Disciplina>>(disciplinas);
     DataSerializer.serialize(disciplinaData, "data_disciplinas.ser");

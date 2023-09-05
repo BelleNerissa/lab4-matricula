@@ -22,6 +22,7 @@ public class Aluno extends Usuario {
       String senha,
       int creditos,
       ArrayList<Integer> disciplinas) {
+
     this.setId(id);
     this.setNome(nome);
     this.setSobrenome(sobrenome);
@@ -70,7 +71,58 @@ public class Aluno extends Usuario {
     }
   }
 
-  public void cancelarDisciplinas(int idDisciplina, int idAluno) {
+  public void cancelarDisciplinas(ArrayList<Disciplina> allDisciplinas, ArrayList<Aluno> allAlunos, int idDisciplina)
+      throws IOException {
+    boolean encontrouDisciplina = false;
+    int creditosRemovidos = 0;
+    for (int i = 0; i < disciplinas.size(); i++) {
+      if (disciplinas.get(i) == idDisciplina) {
+        encontrouDisciplina = true;
+        int disciplinaCreditos = 0;
+
+        for (Disciplina disciplina : allDisciplinas) {
+          if (disciplina.getId() == idDisciplina) {
+            disciplinaCreditos = disciplina.getCreditos();
+            disciplina.getAlunos().remove(Integer.valueOf(this.getId()));
+            break;
+          }
+        }
+
+        setCreditos(this.creditos - disciplinaCreditos);
+        creditosRemovidos = disciplinaCreditos;
+
+        disciplinas.remove(i);
+
+        for (Disciplina disciplina : allDisciplinas) {
+          if (disciplina.getId() == idDisciplina) {
+            disciplina.setAlunos(disciplina.getAlunos());
+            break;
+          }
+        }
+
+        for (Aluno aluno : allAlunos) {
+          if (aluno.getId() == this.getId()) {
+            aluno.setDisciplinas(disciplinas);
+            aluno.setCreditos(aluno.getCreditos() - creditosRemovidos);
+            break;
+          }
+        }
+
+        PersistentData<ArrayList<Aluno>> alunoData = new PersistentData<ArrayList<Aluno>>(allAlunos);
+        DataSerializer.serialize(alunoData, "data_alunos.ser");
+
+        PersistentData<ArrayList<Disciplina>> disciplinaData = new PersistentData<ArrayList<Disciplina>>(
+            allDisciplinas);
+        DataSerializer.serialize(disciplinaData, "data_disciplinas.ser");
+
+        System.out.println("Matrícula na disciplina cancelada com sucesso!");
+        break;
+      }
+    }
+
+    if (!encontrouDisciplina) {
+      System.out.println("Você não está matriculado nesta disciplina!");
+    }
   }
 
   public void matricular(int idDisciplina, ArrayList<Disciplina> allDisciplinas,
